@@ -105,18 +105,30 @@ public class ArrayHeadTailListInterface<T> implements HeadTailListInterface<T> {
 
   @Override
   public void addBack(T newEntry) {
-
+		int capacity = listArray.length;
+		if (numberOfElements >= capacity) {
+			int newCapacity = 3 * capacity;
+			listArray = Arrays.copyOf(listArray, newCapacity);
+		}
+		for (int i =0; i <= capacity; i++) {
+			if (listArray[i] == null) {
+				listArray[i] = newEntry;
+				break;
+			}
+		}
+				numberOfElements++;
   }
 
-  @Override
-  public T getEntry(int position) {
-    if (position >= 0 && position <= numberOfElements) {
-      assert !isEmpty();
-      return listArray[position];
-    } else {
-      throw new IndexOutOfBoundsException("Error: Illegal position.");
-    }
-  }
+	 @Override
+	 public T getEntry(int position) {
+	   if (position >= 0 && position <= listArray.length) {
+	     assert !isEmpty();
+	     return listArray[position];
+	   } else {
+	   		return null;
+	   }
+	 }
+
 
   @Override
   public int size() {
@@ -128,7 +140,7 @@ public class ArrayHeadTailListInterface<T> implements HeadTailListInterface<T> {
   //  @SuppressWarnings(“unchecked”)
   public void clear() {
     // listArray retains its current length
-    listArray = numberOfElements == 0 ? (T[]) new Object[1] : (T[]) new Object[numberOfElements];
+    listArray = numberOfElements == 0 ? (T[]) new Object[1] : (T[]) new Object[listArray.length];
     numberOfElements = 0;
   }
 
